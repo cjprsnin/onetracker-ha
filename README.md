@@ -98,7 +98,22 @@ tap_action:
   entity: sensor.onetracker_active_packages
 ```
 
-More variants (glance, chips, etc.) are in [`examples/lovelace-card.yaml`](examples/lovelace-card.yaml).
+More single-card variants are in [`examples/lovelace-card.yaml`](examples/lovelace-card.yaml).
+
+### Full dashboard view template
+
+Ready-made view with summary + active list + recent delivered:
+
+1. Open a dashboard → **Edit** → ⋮ → **Raw configuration editor**
+2. Under `views:`, paste the block from [`examples/dashboard-view.yaml`](examples/dashboard-view.yaml)
+3. Save
+
+### Delivery notification blueprint
+
+1. **Settings → Automations & scenes → Blueprints → Import blueprint**
+2. Paste:  
+   `https://github.com/cjprsnin/onetracker-ha/blob/main/blueprints/automation/onetracker_package_delivered.yaml`
+3. Create an automation from the blueprint and pick your notify service
 
 ## Notes
 

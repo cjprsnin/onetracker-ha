@@ -1,0 +1,14 @@
+{
+  "domain": "onetracker",
+  "name": "OneTracker",
+  "codeowners": [
+    "@cjprsnin"
+  ],
+  "config_flow": true,
+  "documentation": "https://github.com/cjprsnin/onetracker-ha",
+  "integration_type": "service",
+  "iot_class": "cloud_polling",
+  "issue_tracker": "https://github.com/cjprsnin/onetracker-ha/issues",
+  "requirements": [],
+  "version": "0.1.0"
+}

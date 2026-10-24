@@ -1,0 +1,24 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "OneTracker",
+        "description": "Sign in with your OneTracker account.",
+        "data": { "email": "Email", "password": "Password" }
+      },
+      "reauth_confirm": {
+        "title": "Re-enter password",
+        "description": "OneTracker rejected the saved password for {email}.",
+        "data": { "password": "Password" }
+      }
+    },
+    "error": {
+      "invalid_auth": "Invalid email or password",
+      "cannot_connect": "Cannot reach OneTracker"
+    },
+    "abort": {
+      "already_configured": "This account is already set up",
+      "reauth_successful": "Password updated"
+    }
+  }
+}

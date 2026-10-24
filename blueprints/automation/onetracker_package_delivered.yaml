@@ -1,0 +1,46 @@
+blueprint:
+  name: OneTracker package delivered
+  description: >
+    Notify when a package is marked delivered by OneTracker.
+    Uses the onetracker_package_delivered event from the integration.
+  domain: automation
+  source_url: https://github.com/cjprsnin/onetracker-ha/blob/main/blueprints/automation/onetracker_package_delivered.yaml
+  input:
+    notify_device:
+      name: Notification service
+      description: >
+        Notify service to call, e.g. notify.mobile_app_phone or notify.persistent_notification
+      selector:
+        text:
+          multiline: false
+    title:
+      name: Notification title
+      description: Title of the notification
+      default: Package delivered
+      selector:
+        text:
+    message:
+      name: Notification message
+      description: >
+        Jinja template. Available event data fields include
+        description, retailer, carrier, tracking_id, location, status, eta.
+      default: >-
+        {{ trigger.event.data.description }}
+        {% if trigger.event.data.retailer %} ({{ trigger.event.data.retailer }}){% endif %}
+        {% if trigger.event.data.carrier %} via {{ trigger.event.data.carrier }}{% endif %}
+      selector:
+        text:
+          multiline: true
+
+mode: queued
+max: 10
+
+trigger:
+  - platform: event
+    event_type: onetracker_package_delivered
+
+action:
+  - service: !input notify_device
+    data:
+      title: !input title
+      message: !input message

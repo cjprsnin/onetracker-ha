@@ -1,0 +1,69 @@
+# OneTracker dashboard view template
+#
+# How to use:
+# 1. Open any dashboard → Edit dashboard (pencil)
+# 2. Click the three-dot menu → "Raw configuration editor"
+# 3. Under `views:`, paste this whole block as a new list item
+#    (keep the leading `-` and indentation consistent with other views)
+# 4. Save
+#
+# Or: Edit dashboard → + (add view) → start blank, then add each card
+#     from examples/lovelace-card.yaml individually.
+#
+# Optional: if your entity IDs differ, search-replace
+#   sensor.onetracker_active_packages
+#   sensor.onetracker_delivered_packages
+
+- title: Packages
+  path: packages
+  icon: mdi:package-variant-closed
+  cards:
+    - type: entities
+      title: Summary
+      show_header_toggle: false
+      entities:
+        - entity: sensor.onetracker_active_packages
+          name: In transit
+        - entity: sensor.onetracker_delivered_packages
+          name: Delivered
+
+    - type: markdown
+      title: Active packages
+      content: |
+        {% set pkgs = state_attr('sensor.onetracker_active_packages', 'packages') or [] %}
+        {% if pkgs | length == 0 %}
+        No active packages 📦
+        {% else %}
+        {% for p in pkgs %}
+        **{{ p.description }}**
+        {% if p.retailer %}· {{ p.retailer }}{% endif %}
+        {% if p.carrier %}· {{ p.carrier }}{% endif %}
+
+        {% if p.status_text %}{{ p.status_text }}{% else %}{{ p.status }}{% endif %}
+        {% if p.location %} · {{ p.location }}{% endif %}
+        {% if p.eta %} · ETA {{ p.eta[:10] }}{% endif %}
+
+        {% if not loop.last %}
+        ---
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+
+    - type: markdown
+      title: Recently delivered
+      content: |
+        {% set pkgs = state_attr('sensor.onetracker_delivered_packages', 'packages') or [] %}
+        {% if pkgs | length == 0 %}
+        No delivered packages yet
+        {% else %}
+        {% for p in pkgs[:10] %}
+        **{{ p.description }}**
+        {% if p.retailer %}· {{ p.retailer }}{% endif %}
+        {% if p.carrier %}· {{ p.carrier }}{% endif %}
+        {% if p.updated %} · {{ p.updated[:10] }}{% endif %}
+
+        {% if not loop.last %}
+        ---
+        {% endif %}
+        {% endfor %}
+        {% endif %}
